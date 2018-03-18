@@ -5,6 +5,8 @@ Scan::Scan(const std::string address, const bool verbose) {
     this->address = address;
     this->verbose = verbose;
     this->numOpen = 0;
+    this->numClosed = 0;
+    this->startTime = std::chrono::system_clock::now();
 }
 
 Scan::~Scan(){ 
@@ -17,12 +19,18 @@ void Scan::addPort(const int port) {
         PortEntry p(port);
         bool isOpen = probe(port);
         p.setStatus(isOpen);
-        if (isOpen) this-numOpen++;
+        if (isOpen) {
+            this-numOpen++;
+        }
+        else {
+            this->numClosed++;
+        }
         this->portMap.insert(std::make_pair(port, p)); 
     }
 }
 
 void Scan::printPorts() {
+    this->endTime = std::chrono::system_clock::now();
     for (auto element : this->portMap)  {
         if (this->verbose) {     
             std::cout << element.second.statusString() << std::endl;
@@ -32,8 +40,12 @@ void Scan::printPorts() {
         }
     }
     if (this->numOpen == 0) {
-        std::cout << "No open ports found" << std::endl;
+        std::cout << "No open ports found or host isn't up" << std::endl;
     }
+}
+
+std::string Scan::getScanInfo() const {
+    return this->address;
 }
 
 bool Scan::addressOK() {
@@ -69,6 +81,7 @@ bool Scan::probe(const int port) {
     close(sock); // unistd
     return false;
 }
+
 
 
 

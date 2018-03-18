@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 #include <vector>
 #include <map>
+#include <chrono>
+#include <ctime>
 #include "PortEntry.h"
 
 
@@ -22,15 +24,19 @@ public:
     bool probe(const int port);
     void printPorts();
     void startScan();
+    std::string getScanInfo() const;
     
 
 private:
     std::string address;
+    std::map<int, PortEntry> portMap;
+    std::chrono::system_clock::time_point startTime;
+    std::chrono::system_clock::time_point endTime;
+    std::chrono::duration<double> elapsedTime;
     bool verbose;
     int numOpen;
+    int numClosed;
     int sock;
     struct sockaddr_in server;
-    std::vector<int> portVector;
-    std::map<int, PortEntry> portMap;
 };
 #endif /* SCAN_H_ */

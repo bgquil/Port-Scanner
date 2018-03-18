@@ -2,6 +2,7 @@
 #include <getopt.h>
 #include "Scan.h"
 #include "ParseHelper.h"
+#include "ScanLog.h"
 
 void printUsage() { 
     std::cout << "Usage: portscan -t [TARGET ADDRESS] -p [PORTS, PORT RANGE] " << std::endl;
@@ -16,6 +17,7 @@ void printHelp() {
     printUsage();
     std::cout << "Perform a simple TCP port scan on a computer.\n" << std::endl;
     std::cout << " -h\t Show this help information" << std::endl;
+    std::cout << " -o\t write the scan log to a file" << std::endl;
     std::cout << " -p\t comma separated ports or port ranges" << std::endl;
     std::cout << " -t\t target's IPv4 address" << std::endl;
     std::cout << " -v\t Show both open and closed ports, only show open without -v" << std::endl;
@@ -27,13 +29,15 @@ void printHelp() {
 int main(int argc, char **argv) {
     std::string providedTarget;
     std::string providedPort;
+    std::string outputFilePath;
 
     int option;
     bool verbose;
     int tFlag = 0;  
     int pFlag = 0;
     int hFlag = 0;
-    while ((option = getopt(argc, argv, "t:p:vh")) != -1) {
+    int oFlag = 0;
+    while ((option = getopt(argc, argv, "t:p:vho:")) != -1) {
         switch (option) {
             case 't':
                 if (tFlag) {
@@ -50,8 +54,7 @@ int main(int argc, char **argv) {
                     printUsage();
                     return 1;
                 }
-                else {
-                pFlag++;
+                else { pFlag++;
                 providedPort = optarg;
                 }
                 break;
@@ -61,6 +64,11 @@ int main(int argc, char **argv) {
             case 'h':
                 hFlag++;
                 break; 
+            case 'o': {
+                oFlag++;
+                outputFilePath = optarg;
+                break;
+                }
             default:
                 printUsage();
         }
@@ -74,6 +82,11 @@ int main(int argc, char **argv) {
         if (s.addressOK()) {
             parsePorts(providedPort, &s);
             s.printPorts();
+
+        if (oFlag == 1) {
+            outputScanLog(&outputFilePath, &s); 
+        }
+            
             return 0;
         } 
         else {
