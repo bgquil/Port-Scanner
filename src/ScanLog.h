@@ -5,7 +5,7 @@
 #include <fstream>
 #include "Scan.h"
 
-void outputScanLog(std::string *filePath, const Scan * const s);
+void outputScanLog(const std::string *filePath, const Scan * const s);
 
    
 #endif /* SCANLOG_H_ */

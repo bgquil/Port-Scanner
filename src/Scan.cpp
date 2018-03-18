@@ -45,7 +45,19 @@ void Scan::printPorts() {
 }
 
 std::string Scan::getScanInfo() const {
-    return this->address;
+    return "Target Address: " + this->address + 
+        "\tStart Time: " + "TIME" 
+        " Time Elapsed: " + "ELAP" + 
+        "\nPorts Open: " + std::to_string(this->numOpen) + 
+        "\nPorts Closed: " + std::to_string(this-> numClosed) + "\n";
+}
+
+std::string Scan::generatePortLog() const {
+    std::stringstream ss; 
+    for (auto element : this->portMap)  {
+        ss << element.second.statusString() << "\n";
+    }
+    return ss.str();
 }
 
 bool Scan::addressOK() {

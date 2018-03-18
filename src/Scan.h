@@ -12,6 +12,8 @@
 #include <map>
 #include <chrono>
 #include <ctime>
+#include <string>
+#include <sstream>
 #include "PortEntry.h"
 
 
@@ -25,6 +27,7 @@ public:
     void printPorts();
     void startScan();
     std::string getScanInfo() const;
+    std::string generatePortLog() const;
     
 
 private:
