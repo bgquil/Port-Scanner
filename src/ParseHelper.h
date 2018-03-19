@@ -7,10 +7,10 @@
 template<typename Out>
 void splitHelper(const std::string &s, Out result);
 
-std::vector<std::string> split(const std::string &rawPortArguments);
+std::vector<std::string> split(const std::string & rawPortArguments);
 
-int parseRange(const std::string range, Scan * const s);
+int parseRange(const std::string & range, Scan & s);
 
-int parsePorts(const std::string portArgument, Scan * const s);
+int parsePorts(const std::string & portArgument, Scan & s);
 
 #endif /* PARSERHELPER_H_ */

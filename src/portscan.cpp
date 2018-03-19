@@ -1,4 +1,5 @@
-#include <iostream>
+
+#include <iostream> 
 #include <getopt.h>
 #include "Scan.h"
 #include "ParseHelper.h"
@@ -24,6 +25,7 @@ void printHelp() {
     std::cout << "\nExamples" << std::endl;
     std::cout << "\t portscan -t 192.168.1.1 -p 23,53,80" << std::endl;
     std::cout << "\t portscan -t 192.168.1.1 -p 53,80,100-500 -v" << std::endl;
+    std::cout << "\t portscan -t 192.168.1.103 -p 10-100 -o ~/scan.txt" << std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -80,11 +82,11 @@ int main(int argc, char **argv) {
     else if (tFlag == 1 && pFlag == 1) {
         Scan s(providedTarget, verbose);
         if (s.addressOK()) {
-            parsePorts(providedPort, &s);
+            parsePorts(providedPort, s);
             s.printPorts();
 
         if (oFlag == 1) {
-            outputScanLog(&outputFilePath, &s); 
+            outputScanLog(outputFilePath, s); 
         }
             
             return 0;
