@@ -21,7 +21,7 @@ class Scan {
 public:
     Scan(const std::string address, const bool verbose);
     ~Scan();
-    bool addressOK();
+    bool addressOK() const;
     void addPort(const int port);
     bool probe(const int port);
     void printPorts();

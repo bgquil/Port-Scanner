@@ -31,6 +31,8 @@ void Scan::addPort(const int port) {
 
 void Scan::printPorts() {
     this->endTime = std::chrono::system_clock::now();
+    this->elapsedTime = endTime-startTime;
+    std::cout << getScanInfo() << std::endl;
     for (auto element : this->portMap)  {
         if (this->verbose) {     
             std::cout << element.second.statusString() << std::endl;
@@ -45,22 +47,36 @@ void Scan::printPorts() {
 }
 
 std::string Scan::getScanInfo() const {
-    return "Target Address: " + this->address + 
-        "\tStart Time: " + "TIME" 
-        " Time Elapsed: " + "ELAP" + 
-        "\nPorts Open: " + std::to_string(this->numOpen) + 
-        "\nPorts Closed: " + std::to_string(this-> numClosed) + "\n";
+    std::time_t start = std::chrono::system_clock::to_time_t(startTime);
+    std::stringstream ss; 
+    ss << "Target Address: ";
+    ss << this->address; 
+    ss << "\tStart Time: ";
+    ss << ctime(&start);
+    ss << "\nTime Elapsed: "; 
+    ss << elapsedTime.count(); 
+    ss << "s";
+    ss << "\nPorts Open: "; 
+    ss << std::to_string(this->numOpen); 
+    ss << "\nPorts Closed: "; 
+    ss << std::to_string(this-> numClosed);
+    ss <<  "\n";
+    return ss.str();
 }
 
 std::string Scan::generatePortLog() const {
     std::stringstream ss; 
+    if (this->numOpen == 0) {
+    ss << "No open ports found or host isn't up\n";
+    }
+    ss << "\n";
     for (auto element : this->portMap)  {
         ss << element.second.statusString() << "\n";
     }
     return ss.str();
 }
 
-bool Scan::addressOK() {
+bool Scan::addressOK() const {
     return inet_addr(address.c_str()) != -1;
 }
 
@@ -93,9 +109,4 @@ bool Scan::probe(const int port) {
     close(sock); // unistd
     return false;
 }
-
-
-
-
-
 
