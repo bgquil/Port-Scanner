@@ -90,13 +90,12 @@ bool Scan::probe(const int port) {
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
     // Attempt TCP connection
-    if (connect(sock, (struct sockaddr *)&server, sizeof(server)) < 0) {
-        //std::cout << port << ": Closed" << std::endl;
-    } 
-    else {
-        //std::cout << port << ": Open" << std::endl;
+    if (connect(sock, (struct sockaddr *)&server, sizeof(server)) >= 0) {
+        // Open
+        shutdown(sock, 2);
+        close(sock); // unistd
         return true;
-    }
+    } 
     shutdown(sock, 2);
     close(sock); // unistd
     return false;
