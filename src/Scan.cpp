@@ -85,16 +85,8 @@ bool Scan::probe(const int port) {
     if (sock == -1) {
         std::cout << "Couldn't create socket" << std::endl; 
     }
- 
-    // for dns lookup 
-    if (inet_addr(address.c_str()) == -1) {
-        std::cout << "Bad target address" << std::endl;
-    }
-    else {
-        // for ip
-        server.sin_addr.s_addr = inet_addr(address.c_str());
-    }
 
+    server.sin_addr.s_addr = inet_addr(address.c_str());
     server.sin_family = AF_INET;
     server.sin_port = htons(port);
     // Attempt TCP connection
