@@ -6,7 +6,7 @@
 #include "ScanLog.h"
 
 void printUsage() { 
-    std::cout << "Usage: portscan -t [TARGET ADDRESS] -p [PORTS, PORT RANGE] " << std::endl;
+    std::cout << "Usage: portscan -t [TARGET IPv4 ADDRESS] -p [PORTS, PORT RANGE] " << std::endl;
 }
 
 
@@ -17,7 +17,7 @@ void addressError() {
 void printHelp() {
     printUsage();
     std::cout << "Perform a simple TCP port scan on a computer.\n\n" 
-    << " -h\t Show this help information\n" 
+    << " -h\t show this help information\n" 
     << " -t\t target's IPv4 address\n"
     << " -p\t comma separated ports or port ranges\n"
     << " -o\t write the scan log to a file\n"
@@ -74,6 +74,7 @@ int main(int argc, char **argv) {
                 }
             default:
                 printUsage();
+                return 1;            
         }
     }
     if (hFlag || argc < 3 || ( tFlag < 1 || pFlag < 1)) {
@@ -83,13 +84,12 @@ int main(int argc, char **argv) {
     else if (tFlag == 1 && pFlag == 1) {
         Scan s(providedTarget, verbose);
         if (s.addressOK()) {
+            std::cout << "Scan started.\n" << std::endl;
             parsePorts(providedPort, s);
             s.printPorts();
-
-        if (oFlag == 1) {
-            outputScanLog(outputFilePath, s); 
-        }
-            
+            if (oFlag == 1) {
+                outputScanLog(outputFilePath, s); 
+            }
             return 0;
         } 
         else {
