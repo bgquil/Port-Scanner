@@ -14,6 +14,7 @@
 #include <ctime>
 #include <string>
 #include <sstream>
+#include <fcntl.h>
 #include "PortEntry.h"
 
 
