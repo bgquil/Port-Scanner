@@ -16,16 +16,16 @@ void addressError() {
 
 void printHelp() {
     printUsage();
-    std::cout << "Perform a simple TCP port scan on a computer.\n" << std::endl;
-    std::cout << " -h\t Show this help information" << std::endl;
-    std::cout << " -o\t write the scan log to a file" << std::endl;
-    std::cout << " -p\t comma separated ports or port ranges" << std::endl;
-    std::cout << " -t\t target's IPv4 address" << std::endl;
-    std::cout << " -v\t Show both open and closed ports, only show open without -v" << std::endl;
-    std::cout << "\nExamples" << std::endl;
-    std::cout << "\t portscan -t 192.168.1.1 -p 23,53,80" << std::endl;
-    std::cout << "\t portscan -t 192.168.1.1 -p 53,80,100-500 -v" << std::endl;
-    std::cout << "\t portscan -t 192.168.1.103 -p 10-100 -o ~/scan.txt" << std::endl;
+    std::cout << "Perform a simple TCP port scan on a computer.\n\n" 
+    << " -h\t Show this help information\n" 
+    << " -t\t target's IPv4 address\n"
+    << " -p\t comma separated ports or port ranges\n"
+    << " -o\t write the scan log to a file\n"
+    << " -v\t Show both open and closed ports, default show open only\n"
+    << "\nExamples\n"
+    << "\t portscan -t 192.168.1.1 -p 23,53,80\n"
+    << "\t portscan -t 192.168.1.1 -p 53,80,100-500 -v\n"
+    << "\t portscan -t 192.168.1.103 -p 10-100 -o ~/scan.txt\n" << std::endl;
 }
 
 int main(int argc, char **argv) {
@@ -56,7 +56,8 @@ int main(int argc, char **argv) {
                     printUsage();
                     return 1;
                 }
-                else { pFlag++;
+                else { 
+                pFlag++;
                 providedPort = optarg;
                 }
                 break;
