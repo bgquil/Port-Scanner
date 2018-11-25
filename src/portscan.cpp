@@ -39,6 +39,7 @@ int main(int argc, char **argv) {
     int portFlag = 0;
     int helpFlag = 0;
     int outputFlag = 0;
+
     while ((option = getopt(argc, argv, "t:p:vho:")) != -1) {
         switch (option) {
             case 't':
@@ -77,16 +78,20 @@ int main(int argc, char **argv) {
                 return 1;            
         }
     }
+    // print help if required scan options are not given 
     if (helpFlag || argc < 3 || ( targetFlag < 1 || portFlag < 1)) {
         printHelp();
     }
-
     else if (targetFlag == 1 && portFlag == 1) {
         Scan s(providedTarget, verbose);
+
         if (s.addressOK()) {
+
             std::cout << "Scan started.\n" << std::endl;
             parsePorts(providedPort, s);
             s.printPorts();
+
+            // write scan log to file
             if (outputFlag == 1) {
                 outputScanLog(outputFilePath, s); 
             }
