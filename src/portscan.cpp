@@ -35,29 +35,29 @@ int main(int argc, char **argv) {
 
     int option;
     bool verbose;
-    int tFlag = 0;  
-    int pFlag = 0;
-    int hFlag = 0;
-    int oFlag = 0;
+    int targetFlag = 0;
+    int portFlag = 0;
+    int helpFlag = 0;
+    int outputFlag = 0;
     while ((option = getopt(argc, argv, "t:p:vho:")) != -1) {
         switch (option) {
             case 't':
-                if (tFlag) {
+                if (targetFlag) {
                     printUsage();
                     return 1;
                 }
                 else {
-                tFlag++;
+                targetFlag++;
                 providedTarget = optarg;
                 }
                 break;
             case 'p':
-                if (pFlag) {
+                if (portFlag) {
                     printUsage();
                     return 1;
                 }
                 else { 
-                pFlag++;
+                portFlag++;
                 providedPort = optarg;
                 }
                 break;
@@ -65,10 +65,10 @@ int main(int argc, char **argv) {
                 verbose = true;
                 break;
             case 'h':
-                hFlag++;
+                helpFlag++;
                 break; 
             case 'o': {
-                oFlag++;
+                outputFlag++;
                 outputFilePath = optarg;
                 break;
                 }
@@ -77,17 +77,17 @@ int main(int argc, char **argv) {
                 return 1;            
         }
     }
-    if (hFlag || argc < 3 || ( tFlag < 1 || pFlag < 1)) {
+    if (helpFlag || argc < 3 || ( targetFlag < 1 || portFlag < 1)) {
         printHelp();
     }
 
-    else if (tFlag == 1 && pFlag == 1) {
+    else if (targetFlag == 1 && portFlag == 1) {
         Scan s(providedTarget, verbose);
         if (s.addressOK()) {
             std::cout << "Scan started.\n" << std::endl;
             parsePorts(providedPort, s);
             s.printPorts();
-            if (oFlag == 1) {
+            if (outputFlag == 1) {
                 outputScanLog(outputFilePath, s); 
             }
             return 0;
