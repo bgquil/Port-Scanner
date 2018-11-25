@@ -89,11 +89,12 @@ int main(int argc, char **argv) {
 
             std::cout << "Scan started.\n" << std::endl;
             parsePorts(providedPort, s);
-            s.printPorts();
+            ScanLog log(&s, verbose);
+            //s.printPorts();
 
             // write scan log to file
             if (outputFlag == 1) {
-                outputScanLog(outputFilePath, s); 
+                //outputScanLog(outputFilePath, s); 
             }
             return 0;
         } 
