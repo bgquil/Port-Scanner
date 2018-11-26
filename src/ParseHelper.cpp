@@ -22,7 +22,7 @@ std::vector<std::string> split(const std::string & rawPortArguments) {
 }
 
 
-int parseRange(const std::string & range, Scan &  s) {
+int parseRange(const std::string & range, std::set<int> & portSet) {
     std::string::size_type rangeSep = range.find('-');
     std::string startStr = range.substr(0, rangeSep);
     std::string endStr = range.substr(rangeSep+1, range.length());
@@ -33,7 +33,7 @@ int parseRange(const std::string & range, Scan &  s) {
 
         if (start >= 0 && start < 65335 && start < end && end > 0 && end <= 65535) {
             for (int i = start; i <= end; i++) {
-                    s.addPort(i);
+                portSet.insert(i);
             } 
         }
         else {
@@ -45,22 +45,25 @@ int parseRange(const std::string & range, Scan &  s) {
     }
 }
 
-int parsePorts(const std::string & portArgument, Scan & s)  { 
+std::set<int> parsePorts(const std::string & portArgument)  { 
+    std::set<int> portSet;
     //split port arguments
     std::vector<std::string> ports =  split(portArgument);
     //parse each argument, checking for range or single port
     for (int i = 0; i < ports.size(); i++) {     
         std::string portString = ports[i];
         if (portString.find("-") != std::string::npos) {
-            parseRange(ports[i], s);    
+            parseRange(ports[i], portSet);    
         }
         else { 
             try {
                 int parsedPort =  stol(ports[i]);
-                s.addPort(parsedPort);   
+                portSet.insert(parsedPort);
             } catch (std::invalid_argument& e) {
-                return 2;
+
             }
         }
-    } 
+    }
+
+    return portSet;
 }
