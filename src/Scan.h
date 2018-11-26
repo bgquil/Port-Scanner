@@ -29,6 +29,10 @@ public:
     void startScan();
     std::string getScanInfo() const;
     std::string generatePortLog() const;
+    std::string getAddress();
+    int getNumOpen();
+    int getNumClosed();
+    std::chrono::duration<double> getElapsedTime();
     
 
 private:

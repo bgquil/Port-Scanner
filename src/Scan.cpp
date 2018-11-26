@@ -13,6 +13,22 @@ Scan::~Scan(){
     //std::cout << "Destructor Called:" << this << std::endl;
 }
 
+std::string Scan::getAddress() {
+    return this->address;
+}
+
+int Scan::getNumOpen() {
+    return this->numOpen;
+}
+
+int Scan::getNumClosed() {
+    return this->numClosed;
+}
+
+std::chrono::duration<double> Scan::getElapsedTime() {
+    return this->elapsedTime;
+}
+
 
 void Scan::addPort(const int port) {
     if(!this->portMap.count(port)){
