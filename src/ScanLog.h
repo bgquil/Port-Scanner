@@ -1,22 +1,36 @@
 #ifndef SCANLOG_H_
 #define SCANLOG_H_
 
-#include <iostream>
-#include <fstream>
 #include "Scan.h"
 
+#include <iostream>
+#include <fstream>
+#include <set>
 
 class ScanLog {
 public:
-    ScanLog(Scan * scan, const bool verbose);
+    ScanLog(const std::string address, const std::set<int>, const bool verbose);
     ~ScanLog();
-    std::string getScanLog() const;
+    void addPort(const int);
+    void startScan();
+    std::string printScanLog() const;
     std::string generateScanInfo() const;
     std::string generatePortLog() const;
+    std::string getScanLog() const;
+
+    void printPorts();
 
 private:
-    Scan * scan;
+    Scan * scanner;
     bool verbose;
+    std::string address;
+    std::set<int> portSet;
+    std::map<int, PortEntry>  portMap;
+    std::chrono::system_clock::time_point startTime;
+    std::chrono::system_clock::time_point endTime;
+    std::chrono::duration<double> elapsedTime;
+    int numOpen = 0;
+    int numClosed = 0;
 };
 
 

@@ -1,40 +1,59 @@
 #include "ScanLog.h"
 
 
-
-
-ScanLog::ScanLog(Scan * scan, const bool verbose) {
-    std::cout << "ScanLog created" << std::endl;
-    this->scan = scan;
+ScanLog::ScanLog(const std::string address, const std::set<int> ports, const bool verbose) {
+    this->scanner =  new Scan(address);
     this->verbose = verbose;
+    this->portSet = ports;
 }
 
 ScanLog::~ScanLog() {
-    std::cout << "Desctructor Called:" << this << std::endl;
+    std::cout << "ScanLog Destructor Called:" << this << std::endl;
+    delete scanner;
 }
 
+void ScanLog::startScan() {
+    if (this->scanner->addressOK()) {
+        this->startTime = std::chrono::system_clock::now();
+    }
+}
+
+void ScanLog::addPort(const int port) {
+    if(!this->portMap.count(port)){
+        PortEntry p(port);
+        bool isOpen = this->scanner->probe(port);
+        p.setStatus(isOpen);
+        if (isOpen) {
+            this-numOpen++;
+        }
+        else {
+            this->numClosed++;
+        }
+        this->portMap.insert(std::make_pair(port, p)); 
+    }
+}
 std::string ScanLog::getScanLog() const{
     return "";
 
 }
 
 std::string ScanLog::generateScanInfo() const {
-    /*
+    std::time_t start = std::chrono::system_clock::to_time_t(startTime);
     std::stringstream ss; 
     ss << "Target Address: ";
-    ss << scan->address; 
+    ss << this->address; 
     ss << "\tStart Time: ";
     ss << ctime(&start);
     ss << "\nTime Elapsed: "; 
-    ss << elapsedTime.count(); 
+    ss << this->elapsedTime.count(); 
     ss << "s";
     ss << "\nPorts Open: "; 
-    ss << std::to_string(scan->numOpen); 
+    ss << std::to_string(this->numOpen); 
     ss << "\nPorts Closed: "; 
-    ss << std::to_string(scan-> numClosed);
+    ss << std::to_string(this->numClosed);
     ss <<  "\n";
+
     return ss.str();
-    */
 
 }
 
@@ -53,13 +72,34 @@ std::string ScanLog::generatePortLog() const {
     return ss.str();
 }
 
-
-void outputScanLog(const std::string & filePath, const Scan & s) {
+void outputScanLog(const std::string & filePath) {
+/*
     std::ofstream outputStream;
     outputStream.open(filePath);
     outputStream << "Port Scan\n";
     outputStream << s.getScanInfo();
     outputStream << s.generatePortLog();
     outputStream.close();
+*/
     
 }   
+
+
+void ScanLog::printPorts() {
+    this->endTime = std::chrono::system_clock::now();
+    this->elapsedTime = endTime-startTime;
+    /*
+    std::cout << getScanInfo() << std::endl;
+    for (auto element : this->portMap)  {
+        if (this->verbose) {     
+            std::cout << element.second.statusString() << std::endl;
+        }
+        else if (element.second.getStatus() == true) { 
+            std::cout << element.second.statusString() << std::endl;
+        }
+    }
+    if (this->numOpen == 0) {
+        std::cout << "No open ports found or host isn't up" << std::endl;
+    }
+    */
+}
