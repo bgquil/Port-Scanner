@@ -4,6 +4,7 @@
 #include "Scan.h"
 #include "ParseHelper.h"
 #include "ScanLog.h"
+#include <set>
 
 void printUsage() { 
     std::cout << "Usage: portscan -t [TARGET IPv4 ADDRESS] -p [PORTS, PORT RANGE] " << std::endl;
@@ -83,13 +84,14 @@ int main(int argc, char **argv) {
         printHelp();
     }
     else if (targetFlag == 1 && portFlag == 1) {
-        Scan s(providedTarget, verbose);
+        std::set<int> portSet;
+        portSet = parsePorts(providedPort);
 
-        if (s.addressOK()) {
+        ScanLog log(providedTarget, portSet, verbose);
 
+        if (true /*s.addressOK()*/) {
             std::cout << "Scan started.\n" << std::endl;
-            parsePorts(providedPort, s);
-            ScanLog log(&s, verbose);
+            //parsePorts(providedPort, s);
             //s.printPorts();
 
             // write scan log to file

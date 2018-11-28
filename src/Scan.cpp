@@ -6,7 +6,7 @@ Scan::Scan(const std::string address) {
 }
 
 Scan::~Scan(){ 
-    //std::cout << "Destructor Called:" << this << std::endl;
+    std::cout << "Scan Destructor Called:" << this << std::endl;
 }
 
 bool Scan::addressOK() const {
