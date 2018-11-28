@@ -3,12 +3,13 @@
 
 ScanLog::ScanLog(const std::string address, const std::set<int> ports, const bool verbose) {
     this->scanner =  new Scan(address);
+    this->address = address;
     this->verbose = verbose;
     this->portSet = ports;
 }
 
 ScanLog::~ScanLog() {
-    std::cout << "ScanLog Destructor Called:" << this << std::endl;
+    //std::cout << "ScanLog Destructor Called:" << this << std::endl;
     delete scanner;
 }
 
@@ -72,7 +73,7 @@ std::string ScanLog::generatePortLog(const bool verbose) const {
     }
     else {
         for (auto element : this->portMap)  {
-            if (this->verbose) {     
+            if (verbose) {     
                 ss << element.second.statusString() << "\n";
             }
             else if (element.second.getStatus() == true) { 
@@ -84,12 +85,10 @@ std::string ScanLog::generatePortLog(const bool verbose) const {
 }
 
 void ScanLog::writeScanLog(const std::string & filePath) {
-/*
     std::ofstream outputStream;
     outputStream.open(filePath);
     outputStream << "Port Scan\n";
-    outputStream << s.getScanInfo();
-    outputStream << s.generatePortLog();
+    outputStream << this->generateScanInfo();
+    outputStream << this->generatePortLog(true);
     outputStream.close();
-*/
 }   
