@@ -15,7 +15,12 @@ ScanLog::~ScanLog() {
 void ScanLog::startScan() {
     if (this->scanner->addressOK()) {
         this->startTime = std::chrono::system_clock::now();
+        for (auto e : this->portSet) {
+            this->addPort(e);
+        }
     }
+    this->endTime = std::chrono::system_clock::now();
+    this->elapsedTime = endTime-startTime;
 }
 
 void ScanLog::addPort(const int port) {
@@ -32,11 +37,14 @@ void ScanLog::addPort(const int port) {
         this->portMap.insert(std::make_pair(port, p)); 
     }
 }
+
+
 std::string ScanLog::getScanLog() const{
     return "";
 
 }
 
+// Generate Metadata about a scan
 std::string ScanLog::generateScanInfo() const {
     std::time_t start = std::chrono::system_clock::to_time_t(startTime);
     std::stringstream ss; 
@@ -57,22 +65,25 @@ std::string ScanLog::generateScanInfo() const {
 
 }
 
-
-std::string ScanLog::generatePortLog() const {
+std::string ScanLog::generatePortLog(const bool verbose) const {
     std::stringstream ss; 
-    /*
     if (this->numOpen == 0) {
-    ss << "No open ports found or host isn't up\n";
+        ss << "No open ports found or host isn't up\n";
     }
-    ss << "\n";
-    for (auto element : this->portMap)  {
-        ss << element.second.statusString() << "\n";
+    else {
+        for (auto element : this->portMap)  {
+            if (this->verbose) {     
+                ss << element.second.statusString() << "\n";
+            }
+            else if (element.second.getStatus() == true) { 
+                ss << element.second.statusString() << "\n";
+            }
+        }
     }
-    */
     return ss.str();
 }
 
-void outputScanLog(const std::string & filePath) {
+void ScanLog::writeScanLog(const std::string & filePath) {
 /*
     std::ofstream outputStream;
     outputStream.open(filePath);
@@ -81,25 +92,4 @@ void outputScanLog(const std::string & filePath) {
     outputStream << s.generatePortLog();
     outputStream.close();
 */
-    
 }   
-
-
-void ScanLog::printPorts() {
-    this->endTime = std::chrono::system_clock::now();
-    this->elapsedTime = endTime-startTime;
-    /*
-    std::cout << getScanInfo() << std::endl;
-    for (auto element : this->portMap)  {
-        if (this->verbose) {     
-            std::cout << element.second.statusString() << std::endl;
-        }
-        else if (element.second.getStatus() == true) { 
-            std::cout << element.second.statusString() << std::endl;
-        }
-    }
-    if (this->numOpen == 0) {
-        std::cout << "No open ports found or host isn't up" << std::endl;
-    }
-    */
-}

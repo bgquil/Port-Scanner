@@ -34,8 +34,8 @@ int main(int argc, char **argv) {
     std::string providedPort;
     std::string outputFilePath;
 
-    int option;
-    bool verbose;
+    int option = 0;
+    bool verbose = false;;
     int targetFlag = 0;
     int portFlag = 0;
     int helpFlag = 0;
@@ -89,22 +89,19 @@ int main(int argc, char **argv) {
 
         ScanLog log(providedTarget, portSet, verbose);
 
-        if (true /*s.addressOK()*/) {
-            std::cout << "Scan started.\n" << std::endl;
-            //parsePorts(providedPort, s);
-            //s.printPorts();
+        log.startScan();
 
-            // write scan log to file
-            if (outputFlag == 1) {
-                //outputScanLog(outputFilePath, s); 
-            }
-            return 0;
-        } 
-        else {
-            addressError();        
-            return 1;
+        std::cout << "Scan started.\n" << std::endl;
+        std::cout << log.generateScanInfo() << std::endl;
+        std::cout << log.generatePortLog(verbose) << std::endl;
+
+        if (outputFlag == 1) {
+            log.writeScanLog(outputFilePath); 
         }
-    }
+        
+        //addressError();        
+        return 0;
 
+    }
     return 1;
 }

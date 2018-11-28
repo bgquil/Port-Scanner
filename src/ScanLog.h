@@ -18,14 +18,13 @@ public:
     void startScan();
     std::string printScanLog() const;
     std::string generateScanInfo() const;
-    std::string generatePortLog() const;
+    std::string generatePortLog(const bool verbose) const;
     std::string getScanLog() const;
-
-    void printPorts();
+    void writeScanLog(const std::string & filePath);
 
 private:
     Scan * scanner;
-    bool verbose;
+    bool verbose = false;
     std::string address;
     std::set<int> portSet;
     std::map<int, PortEntry>  portMap;
@@ -37,7 +36,7 @@ private:
 };
 
 
-void outputScanLog(const std::string & filePath, const Scan & s);
+//void outputScanLog(const std::string & filePath, const Scan & s);
 
    
 #endif /* SCANLOG_H_ */
