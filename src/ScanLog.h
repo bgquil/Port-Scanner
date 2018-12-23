@@ -9,10 +9,14 @@
 #include <set>
 #include <chrono>
 #include <ctime>
+#include <memory>
 
 class ScanLog {
 public:
-    ScanLog(const std::string address, const std::set<int>, const bool verbose);
+    ScanLog(const std::string addr, const std::set<int> port, const bool verb) : 
+        address(addr), portSet(port), verbose(verb), scanner(new Scan(addr))
+    {};
+    //ScanLog(const std::string address, const std::set<int>, const bool verbose);
     ~ScanLog();
     void addPort(const int);
     void startScan();
@@ -23,7 +27,7 @@ public:
     void writeScanLog(const std::string & filePath);
 
 private:
-    Scan * scanner;
+    std::unique_ptr<Scan> scanner;
     bool verbose = false;
     std::string address;
     std::set<int> portSet;
@@ -34,9 +38,6 @@ private:
     int numOpen = 0;
     int numClosed = 0;
 };
-
-
-//void outputScanLog(const std::string & filePath, const Scan & s);
 
    
 #endif /* SCANLOG_H_ */
