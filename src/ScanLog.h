@@ -29,7 +29,6 @@ public:
 
 private:
     std::unique_ptr<Scan> scanner;
-    bool verbose = false;
     std::string address;
     std::set<int> portSet;
     std::map<int, PortEntry>  portMap;

@@ -6,14 +6,20 @@ ScanLog::~ScanLog() {
 }
 
 void ScanLog::startScan() {
+
     if (this->scanner->addressOK()) {
         this->startTime = std::chrono::system_clock::now();
-        for (auto e : this->portSet) {
-            this->addPort(e);
+
+        for (int port : this->portSet) {
+            this->addPort(port);
         }
+
+        this->endTime = std::chrono::system_clock::now();
+        this->elapsedTime = endTime-startTime;
     }
-    this->endTime = std::chrono::system_clock::now();
-    this->elapsedTime = endTime-startTime;
+    else {
+        throw std::invalid_argument{"Invalid Target Address"};
+    }
 }
 
 void ScanLog::addPort(const int port) {
