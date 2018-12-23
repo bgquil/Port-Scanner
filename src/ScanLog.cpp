@@ -1,16 +1,8 @@
 #include "ScanLog.h"
 
-
-ScanLog::ScanLog(const std::string address, const std::set<int> ports, const bool verbose) {
-    this->scanner =  new Scan(address);
-    this->address = address;
-    this->verbose = verbose;
-    this->portSet = ports;
-}
-
 ScanLog::~ScanLog() {
     //std::cout << "ScanLog Destructor Called:" << this << std::endl;
-    delete scanner;
+    //delete scanner;
 }
 
 void ScanLog::startScan() {
