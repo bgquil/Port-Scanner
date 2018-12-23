@@ -89,17 +89,23 @@ int main(int argc, char **argv) {
 
         ScanLog log(providedTarget, portSet, verbose);
 
-        log.startScan();
+        try {
+            log.startScan();
 
-        std::cout << "Scan started.\n" << std::endl;
-        std::cout << log.generateScanInfo() << std::endl;
-        std::cout << log.generatePortLog(verbose) << std::endl;
+            std::cout << "Scan started.\n" << std::endl;
+            std::cout << log.generateScanInfo() << std::endl;
+            std::cout << log.generatePortLog(verbose) << std::endl;
 
-        if (outputFlag == 1) {
-            log.writeScanLog(outputFilePath); 
+            if (outputFlag == 1) {
+                log.writeScanLog(outputFilePath); 
+            }
         }
-        
-        //addressError();        
+        catch (std::invalid_argument& err) {
+            addressError();        
+            return 1;
+        }
+
+
         return 0;
 
     }
