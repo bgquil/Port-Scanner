@@ -35,7 +35,7 @@ int main(int argc, char **argv) {
     std::string outputFilePath;
 
     int option = 0;
-    bool verbose = false;;
+    bool verboseFlag = false;;
     int targetFlag = 0;
     int portFlag = 0;
     int helpFlag = 0;
@@ -64,7 +64,7 @@ int main(int argc, char **argv) {
                 }
                 break;
             case 'v':
-                verbose = true;
+                verboseFlag = true;
                 break;
             case 'h':
                 helpFlag++;
@@ -87,14 +87,14 @@ int main(int argc, char **argv) {
         std::set<int> portSet;
         portSet = parsePorts(providedPort);
 
-        ScanLog log(providedTarget, portSet, verbose);
+        ScanLog log(providedTarget, portSet);
 
         try {
             log.startScan();
 
             std::cout << "Scan started.\n" << std::endl;
             std::cout << log.generateScanInfo() << std::endl;
-            std::cout << log.generatePortLog(verbose) << std::endl;
+            std::cout << log.generatePortLog(verboseFlag) << std::endl;
 
             if (outputFlag == 1) {
                 log.writeScanLog(outputFilePath); 
