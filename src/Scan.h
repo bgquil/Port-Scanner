@@ -8,10 +8,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <string>
-#include <sstream>
 #include <fcntl.h>
-#include "PortEntry.h"
 
 
 class Scan {
