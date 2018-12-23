@@ -2,6 +2,7 @@
 #define SCANLOG_H_
 
 #include "Scan.h"
+#include "PortEntry.h"
 
 #include <iostream>
 #include <fstream>
@@ -13,8 +14,8 @@
 
 class ScanLog {
 public:
-    ScanLog(const std::string addr, const std::set<int> port, const bool verb) : 
-        address(addr), portSet(port), verbose(verb), scanner(new Scan(addr))
+    ScanLog(const std::string addr, const std::set<int> port) : 
+        address(addr), portSet(port), scanner(new Scan(addr))
     {};
     //ScanLog(const std::string address, const std::set<int>, const bool verbose);
     ~ScanLog();
