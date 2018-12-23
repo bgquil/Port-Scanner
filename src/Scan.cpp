@@ -1,8 +1,8 @@
 #include "Scan.h"
 
-
 Scan::Scan(const std::string address) {
     this->address = address;
+    this->setupServer();
 }
 
 Scan::~Scan(){ 
@@ -13,16 +13,18 @@ bool Scan::addressOK() const {
     return inet_addr(address.c_str()) != -1;
 }
 
+void Scan::setupServer() {
+    server.sin_family = AF_INET;
+    server.sin_addr.s_addr = inet_addr(address.c_str());
+}
+
 bool Scan::probe(const int port) {
-    struct timeval timeLimit;
     fd_set fdset;
 
     // .05 second connection timeout
     timeLimit.tv_sec = 0;
     timeLimit.tv_usec = 50000;
 
-    server.sin_family = AF_INET;
-    server.sin_addr.s_addr = inet_addr(address.c_str());
     server.sin_port = htons(port);
 
     sock = socket(AF_INET, SOCK_STREAM, 0); 

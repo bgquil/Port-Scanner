@@ -16,10 +16,12 @@ public:
     Scan(const std::string address);
     ~Scan();
     bool addressOK() const;
+    void setupServer(); 
     bool probe(const int port);
 
 private:
     std::string address;
+    struct timeval timeLimit;
     int sock;
     struct sockaddr_in server;
 };
