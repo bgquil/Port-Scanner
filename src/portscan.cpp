@@ -90,9 +90,9 @@ int main(int argc, char **argv) {
         ScanLog log(providedTarget, portSet);
 
         try {
+            std::cout << "Scan started.\n" << std::endl;
             log.startScan();
 
-            std::cout << "Scan started.\n" << std::endl;
             std::cout << log.generateScanInfo() << std::endl;
             std::cout << log.generatePortLog(verboseFlag) << std::endl;
 
