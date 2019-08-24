@@ -69,14 +69,13 @@ std::string ScanLog::generatePortLog(const bool verbose) const {
     if (this->numOpen == 0) {
         ss << "No open ports found or host isn't up\n";
     }
-    else {
-        for (auto element : this->portMap)  {
-            if (verbose) {     
-                ss << element.second.statusString() << "\n";
-            }
-            else if (element.second.getStatus() == true) { 
-                ss << element.second.statusString() << "\n";
-            }
+
+    for (auto element : this->portMap)  {
+        if (verbose) {     
+            ss << element.second.statusString() << "\n";
+        }
+        else if (element.second.getStatus() == true) { 
+            ss << element.second.statusString() << "\n";
         }
     }
     return ss.str();
