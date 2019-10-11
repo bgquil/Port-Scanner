@@ -3,6 +3,7 @@
 #define PORTENTRY_H_
 
 #include <sstream>
+#include <iomanip>
 
 class PortEntry {
 public:

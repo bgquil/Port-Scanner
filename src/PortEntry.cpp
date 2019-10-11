@@ -21,7 +21,7 @@ std::string PortEntry::statusString() {
     std::stringstream ss;
     ss << "Port: "; 
     ss << this->portNumber;
-    ss << "\tStatus: "; 
+    ss << std::setw(10) << "\tStatus: "; 
     ss << (this->status ? "Open": "Closed");
     return ss.str();
 }
