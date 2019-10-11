@@ -11,7 +11,7 @@ void splitHelper(const std::string &s, Out result);
 
 std::vector<std::string> split(const std::string & rawPortArguments);
 
-int parseRange(const std::string & range, std::set<int> & s);
+void parseRange(const std::string & range, std::set<int> & s);
 
 std::set<int> parsePorts(const std::string & portArgument);
 

@@ -22,7 +22,7 @@ std::vector<std::string> split(const std::string & rawPortArguments) {
 }
 
 
-int parseRange(const std::string & range, std::set<int> & portSet) {
+void parseRange(const std::string & range, std::set<int> & portSet) {
     std::string::size_type rangeSep = range.find('-');
     std::string startStr = range.substr(0, rangeSep);
     std::string endStr = range.substr(rangeSep+1, range.length());
@@ -41,7 +41,7 @@ int parseRange(const std::string & range, std::set<int> & portSet) {
             exit(2);
         }
     } catch (std::invalid_argument& e) {
-        return 2; 
+        printRangeErrorInfo();
     }
 }
 
